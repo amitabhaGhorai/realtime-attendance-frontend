@@ -14,9 +14,10 @@ export const WebSocketProvider = ({ children }) => {
       return;
     }
 
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const host = window.location.host;
-    const wsUrl = `${protocol}//${host}/ws/attendance`;
+    const defaultWsUrl = window.location.hostname === "localhost"
+      ? `ws://${window.location.host}/ws/attendance`
+      : "wss://realtime-attendance-backend.onrender.com/ws/attendance";
+    const wsUrl = import.meta.env.VITE_WS_URL || defaultWsUrl;
 
     setStatus("CONNECTING");
     const ws = new WebSocket(wsUrl);

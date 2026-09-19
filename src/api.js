@@ -1,4 +1,4 @@
-const BASE_URL = "/api";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://realtime-attendance-backend.onrender.com/api";
 
 async function request(endpoint, options = {}) {
   const token = localStorage.getItem("attendance_token");
@@ -118,7 +118,7 @@ export const api = {
   getStudentReport: (studentId) => request(`/reports/student/${studentId}`),
   downloadCSV: async (sessionId) => {
     const token = localStorage.getItem("attendance_token");
-    const url = sessionId ? `/api/reports/export/csv?session_id=${sessionId}` : "/api/reports/export/csv";
+    const url = sessionId ? `${BASE_URL}/reports/export/csv?session_id=${sessionId}` : `${BASE_URL}/reports/export/csv`;
     const res = await fetch(url, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     });
@@ -130,7 +130,7 @@ export const api = {
   },
   downloadPDF: async (sessionId) => {
     const token = localStorage.getItem("attendance_token");
-    const url = sessionId ? `/api/reports/export/pdf?session_id=${sessionId}` : "/api/reports/export/pdf";
+    const url = sessionId ? `${BASE_URL}/reports/export/pdf?session_id=${sessionId}` : `${BASE_URL}/reports/export/pdf`;
     const res = await fetch(url, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     });

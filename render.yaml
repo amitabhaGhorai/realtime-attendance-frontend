@@ -1,0 +1,14 @@
+services:
+  - type: static_site
+    name: realtime-attendance-frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        value: https://realtime-attendance-backend.onrender.com/api
+      - key: VITE_WS_URL
+        value: wss://realtime-attendance-backend.onrender.com/ws/attendance
